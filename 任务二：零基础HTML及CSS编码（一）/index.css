@@ -1,0 +1,137 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+
+body{
+	background-color: #D5D6D8;
+}
+/*footer*/
+.footer{
+	width: 100%;
+	height: 60px;
+	background-color: #000001;
+	color: white;
+	line-height: 60px;
+	text-align: center;
+}
+/*header*/
+.header{
+	width: 100%;
+	height: 40px;
+	background-color: #252627;
+	overflow: hidden;
+}
+
+.header a{
+	text-decoration: none;
+	color: white;
+}
+
+.header a:hover{
+	color: #D8D8D8;
+}
+
+.header ul{
+	float: right;
+}
+
+.header ul li{
+	float: left;
+	height: 40px;
+	line-height: 40px;
+	margin-left: 30px;
+}
+/*content*/
+.first,.second,.pic,.last,.side{
+	height: auto;
+	margin: 15px;
+	background-color: white;
+	padding:30px 10px;
+}
+
+h2,h3,.author{
+	margin-bottom: 10px;
+}
+
+h3{
+	color: #474747;
+}
+
+.author{
+	color: #969696;
+}
+
+.para{
+	text-indent: 2em;
+}
+
+.second ul{
+	list-style: none;
+	text-indent: 2em;
+}
+
+img{
+	width: 200px;
+	height: 200px;
+}
+
+.pic img{
+	width: 100px;
+	height: 100px;
+	margin-top: 10px;
+}
+
+.pic div{
+	border: 1px solid #C0C1C2;
+	width: 130px;
+	height: 140px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.last ol{
+	margin-left: 40px;
+}
+
+.side h2{
+	border-left: 4px solid #C0C1C2;
+}
+
+table{
+	width: 100%;
+    border-collapse: collapse;;
+}
+
+thead{
+	background-color: #252627;
+	color: white;
+	font-weight: bold;
+}
+
+tfoot{
+	background-color: #C0C1C2;
+}
+
+.side table{
+	width: 800px;
+	/*background-color: #E0E0E0;*/
+	margin: 0 auto;
+	line-height: 30px;
+}
+
+.side .left{
+	text-align: right;
+	padding-right: 15px;
+}
+
+.side .btn{
+	width: 100%;
+	height: 40px;
+	background-color: #263DC6;
+	color: white;
+	border-radius: 10px;
+	border: none;
+}
+
+
