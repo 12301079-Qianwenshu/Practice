@@ -35,6 +35,16 @@
     }
     
   }
+  // 覆盖了上一个事件
+  btn.onclick = function(){
+    if (aqiInput.value) {
+      aqiDisplay.innerHTML = "被覆盖了";
+    }else{
+      aqiDisplay.innerHTML = "当前输入值为空";
+      aqiDisplay.style.color = "green";
+    }
+    
+  }
 
 })();
 
