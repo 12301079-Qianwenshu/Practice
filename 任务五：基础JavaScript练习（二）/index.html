@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>IFE JavaScript Task 04</title>
+  <style type="text/css">
+    .content{text-align: center;}
+    li{
+      display: inline-block;
+      background-color: #cd4a48;
+      color: white;
+      font-size:20px;
+      text-align:center;
+      padding:5px;
+      margin:5px;
+      cursor:pointer;
+      width: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <input id="input-num" type="text" name="num" placeholder="要插入的数字（10～100）">
+    <button id="left-in">左侧入</button>
+    <button id="right-in">右侧入</button>
+    <button id="left-out">左侧出</button>
+    <button id="right-out">右侧出</button>
+
+    <ul id="queue"></ul>
+    <button id="sort">排序</button>
+  </div>
+
+  <script type="text/javascript">
+    var input = document.getElementById("input-num");
+    var leftIn = document.getElementById("left-in");
+    var leftOut = document.getElementById("left-out");
+    var rightIn = document.getElementById("right-in");
+    var rightOut = document.getElementById("right-out");
+    var ul = document.getElementById("queue");
+    var sort = document.getElementById("sort");
+
+
+    // 插入数字
+    function insertNum(direction){
+      if (input.value == "") {
+        alert("输入数字为空，请重新输入！");
+        input.focus();
+      }else if (isNaN(input.value)) {
+        alert("输入类型出错，请输入数字！");
+        input.value = "";
+        input.focus();
+      }else if(input.value>100||input.value<10){
+        alert("输入范围有误，请输入数字（10～100）！");
+        input.value = "";
+        input.focus();
+      }else if (ul.childNodes.length>=60) {
+        alert("已插入60个数据，不能再添加！");
+        input.value = "";
+        input.focus();
+      }else{
+        var li = document.createElement("li");
+        // li.innerHTML = input.value;
+        li.style.height = input.value+"px";
+        input.value = "";
+        input.focus();
+        if (direction === "left") {//左侧入  
+          ul.insertBefore(li,ul.firstChild);
+        }else if (direction === "right") {//右侧入
+          ul.appendChild(li);
+        }
+      }
+    }
+
+    // 删除数字
+    function deleteNum(node,direction){
+      if (ul.childNodes.length<=0) {
+        alert("不存在可删除元素！");
+        return false;
+      }else{
+        if (direction === "left") {
+          var first = ul.firstChild.innerText;
+          alert("删除数字："+first+" !");
+          ul.removeChild(ul.firstChild)
+        }else if (direction === "right") {
+          var last = ul.lastChild.innerText;
+          alert("删除数字："+last+" !");
+          ul.removeChild(ul.lastChild)
+        }else{
+          ul.removeChild(node);
+        }  
+      }
+    }
+
+    // 排序
+    function bubbleSort(){
+      var data = new Array();
+      for (var i = 0; i < ul.childNodes.length; i++) {
+        var tem = parseFloat(ul.childNodes[i].style.height);
+        data[i] = tem;
+      }
+      
+
+      for (var i = 0; i <= data.length-1; i++) {
+        for (var j = 0; j <= data.length-1; j++) {
+          if (data[j]>data[j+1]) {
+            var t = data[j];
+            data[j] = data[j+1];
+            data[j+1] = t;
+          }
+        }
+      }
+
+      for (var i = 0; i < ul.childNodes.length; i++) {
+        ul.childNodes[i].style.height = data[i]+"px";
+      }
+    }
+
+    // 事件添加
+    leftIn.onclick = function(){
+      insertNum("left");
+    }
+    rightIn.onclick = function(){
+      insertNum("right");
+    }
+    leftOut.onclick = function(){
+      deleteNum(-1,"left");
+    }
+    rightOut.onclick = function(){
+      deleteNum(-1,"right");
+    }
+    ul.onclick = function(event){
+      deleteNum(event.target);
+    }
+    sort.onclick = function(){
+      bubbleSort();
+    }
+
+
+
+  </script>
+  
+</body>
+</html>
