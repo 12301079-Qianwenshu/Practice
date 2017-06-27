@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>IFE JavaScript Task 04</title>
+  <style type="text/css">
+    .content{text-align: center;}
+    li{
+      display: inline-block;
+      background-color: #cd4a48;
+      color: white;
+      font-size:20px;
+      text-align:center;
+      padding:5px;
+      margin:5px;
+      cursor:pointer;
+    }
+    ul{
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <!-- <input id="input-num" type="text" name="num" placeholder="请输入要插入的数字"> -->
+    <textarea id="input-num" placeholder="请输入要插入的内容" cols="30" rows="3" style="resize: none;"></textarea>
+    <button id="left-in">左侧入</button>
+    <button id="right-in">右侧入</button>
+    <button id="left-out">左侧出</button>
+    <button id="right-out">右侧出</button>
+
+    <ul id="queue"></ul>
+    <input id="search" type="text" name="search" placeholder="请输入要查询的内容">
+    <button id="btn-search">查询</button>
+  </div>
+
+  <script type="text/javascript">
+    var input = document.getElementById("input-num");
+    var leftIn = document.getElementById("left-in");
+    var leftOut = document.getElementById("left-out");
+    var rightIn = document.getElementById("right-in");
+    var rightOut = document.getElementById("right-out");
+    var ul = document.getElementById("queue");
+    var search = document.getElementById("search");
+    var btnSearch = document.getElementById("btn-search");
+
+    // 定义模式匹配:中文、数字和英文字符 中文：[\u4E00-\u9FA5]  英文：[A-Za-z]  数字：[0-9]
+    var charPattern=/[\u4E00-\u9FA5A-Za-z0-9]/;
+    // 匹配任意除了中文、英文、数字、回车、逗号、顿号、空格、tab值的字符之外的字符
+    // /[\u0000-\u00FF]/ 半角符号     /[\uFF00-\uFFFF]/ 全角符号
+    var errorCharPattern=/[^\u4E00-\u9FA5A-Za-z0-9\r,，\s、\t]/;
+
+    // 内容解析
+    function contentParse(){
+      var data = new Array();
+      data[0] = "";
+      var j = 0;
+      for (var i = 0; i < input.value.length; i++) {
+        if (charPattern.test(input.value[i])) {
+          data[j] = data[j]+input.value[i];
+        }else{
+          j++;
+          data[j] = "";
+        }
+      }
+
+      for (var i = 0; i < data.length; i++) {
+        if (data[i] == "") {
+          data.splice(i,1);
+          i = i-1;
+        }
+      }
+      return data;
+    }
+
+    // 插入
+    function insertNum(direction){
+      if (input.value == "") {
+        alert("输入内容为空，请重新输入！");
+        input.focus();
+      }else if (errorCharPattern.test(input.value)) {
+        alert("输入类型出错，请重新输入！");
+        input.value = "";
+        input.focus();
+      }else{
+        var data = contentParse();
+        for (var i = 0; i < data.length; i++) {
+          var li = document.createElement("li");
+          li.innerHTML = data[i];
+          if (direction === "left") {//左侧入  
+            ul.insertBefore(li,ul.firstChild);
+            }else if (direction === "right") {//右侧入
+              ul.appendChild(li);
+            }
+        }
+      }
+    }
+
+    // 删除
+    function deleteNum(node,direction){
+      if (ul.childNodes.length<=0) {
+        alert("不存在可删除元素！");
+        return false;
+      }else{
+        if (direction === "left") {
+          var first = ul.firstChild.innerText;
+          alert("删除数字："+first+" !");
+          ul.removeChild(ul.firstChild)
+        }else if (direction === "right") {
+          var last = ul.lastChild.innerText;
+          alert("删除数字："+last+" !");
+          ul.removeChild(ul.lastChild)
+        }else{
+          ul.removeChild(node);
+        }  
+      }
+    }
+
+    // 查询
+    function searchNum(){
+      var target = search.value;
+      var li = ul.getElementsByTagName("li");
+      for (var i = 0; i < li.length; i++) {
+        if (li[i].innerText.indexOf(target)!== -1) {
+          li[i].style.backgroundColor = "#00f";
+        }else{
+          li[i].style.backgroundColor = "#cd4a48";
+        }
+      }
+    }
+
+    //事件绑定 
+    leftIn.onclick = function(){
+      insertNum("left");
+    }
+    rightIn.onclick = function(){
+      insertNum("right");
+    }
+    leftOut.onclick = function(){
+      deleteNum(-1,"left");
+    }
+    rightOut.onclick = function(){
+      deleteNum(-1,"right");
+    }
+    ul.onclick = function(event){
+      deleteNum(event.target);
+    }
+    btnSearch.onclick = function(){
+      searchNum();
+    }
+
+
+
+  </script>
+  
+</body>
+</html>
